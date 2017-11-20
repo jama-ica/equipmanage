@@ -1,0 +1,78 @@
+
+# Apache のダウンロード
+	http://httpd.apache.org/
+	Apache httpd 2.4.26 Released 2017-06-19
+	Files for Microsoft Windows (代わりに配布してくれるサイトを紹介している)
+	Apache Lounge
+	httpd-2.4.26-Win64-VC15.zip
+	
+	## Visual C++
+		上記の apache は Visual C++ でビルドされているので
+		VS.dll が無いエラーが出るときがあるので、その時はダウンロードする
+		http://www.phpbook.jp/install/install/index2.html
+		
+		
+# Apache のインストール
+	展開した zip を適当なフォルダに置く
+
+# Apache の設定
+	## http.conf
+		* ServerRoot, DocumentRoo 等の path をインストールした場所に合うように修正
+		* 他のサービスとポートが被っている場合は、Listen を変更する
+
+	## Apache のキャッシュを切る
+		キャッシュのせいでhtmlなどの内容が更新されないことがある
+		http.conf の設定を変えてキャッシュしないようにする
+		
+		/etc/httpd/conf/httpd.conf
+		<Directory /var/www/html>
+			EnableMMAP Off
+			EnableSendfile Off
+		</Directory>
+		
+# Apache の起動
+	
+	## コンソールアプリとして起動
+		cd C:\Users\hiro\App\Apache24\bin
+		httpd	  (/Apach24/bin/httpd.exe) を実行
+		ブラウザから localhost にアクセス -> it works!
+				
+		止め方はコマンドプロンプトからctrl+c
+	## サービスとして起動
+
+
+# PHP のダウンロード
+	http://www.php.net/
+	7.0.20
+	windows download
+	x64 thread safe
+	
+# PHP のインストール
+	適当なフォルダに解凍
+	
+# PHP の設定
+	環境変数	path に追加
+	
+# PHP を Apache で使うための設定
+	httpd.conf を編集
+	## モジュールを追加 (php7,path は自分の環境に合わせる)
+		LoadModule php7_module c:/pg/php/php7apache2_4.dll
+
+	## 拡張子(.php)の登録
+		<FilesMatch "\.php$">
+			AddHandler php7-script .php
+			AddType application/x-httpd-php .php
+		</FilesMatch>
+		
+	## php.ini の配置場所の指定
+		PHPIniDir "c:/pg/php"
+
+# php の動作確認
+	Apache24/htdocs/hoge.php
+	<?php
+	phpinfo();
+	?>
+	
+	localhost/hoge.php にアクセス
+	
+	
